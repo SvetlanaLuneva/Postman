@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "36fa3c1a-f92b-42e1-aa20-21ca624ac0bd",
+		"name": "HW3_Collections",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21468819"
+	},
+	"item": [
+		{
+			"name": "EP_2 Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1) Name: 3-40 символов включительно, запрещены префиксные и постфиксные пробелы. Поле обязательное\r",
+							"// 2) Age: только целые цифры в диапазоне 18-120 включительно. Поле обязательное\r",
+							"// 3) Salary: только целые цифры в диапазоне 1-1000000 включительно. Поле обязательное\r",
+							"\r",
+							"const name = pm.iterationData.get('name');\r",
+							"const age = pm.iterationData.get('age');\r",
+							"const salary = pm.iterationData.get('salary');\r",
+							"\r",
+							"function transformerName(value) {\r",
+							"    return value && value.length >=3 && value.length <=40 && value.trim() === value};\r",
+							"\r",
+							"function transformerAge(value) {\r",
+							"    return value && !isNaN(value) && value >=18 && value <=120 && Number.isInteger(+value)};\r",
+							"\r",
+							"function transformerSalary(value) {\r",
+							"    return value && !isNaN(value) && value >=1 && value <=1000000 && Number.isInteger(+value)};\r",
+							"\r",
+							"function transformer(name,age,salary) {\r",
+							"    return transformerName(name) && transformerAge(age) && transformerSalary(salary)};\r",
+							"\r",
+							"if (transformer(name, age, salary)) {\r",
+							"    pm.test(`Status code is 200 with name == ${name} , age == ${age}, salary == ${salary}`, () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"} else   pm.test(`Status code is 200 with name == ${name} , age == ${age}, salary == ${salary}`, () => {\r",
+							"    pm.response.to.not.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info_3",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info_3"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
